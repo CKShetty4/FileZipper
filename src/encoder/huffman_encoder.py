@@ -1,4 +1,7 @@
-import collections
+#Step 1.1: Read the input file and calculate the frequency of each character
+import collections 
+
+# Step 1.2: Build a Huffman tree based on the character frequencies
 import heapq
 
 class Node:
@@ -10,7 +13,7 @@ class Node:
 
     def __lt__(self, other):
         return self.frequency < other.frequency
-
+#Step 1.1: Read the input file and calculate the frequency of each character
 def calculate_frequencies(input_file):
     with open(input_file, 'r') as file:
         text = file.read()
@@ -18,7 +21,7 @@ def calculate_frequencies(input_file):
     for char in text:
         frequency_dict[char] += 1
     return frequency_dict
-
+# Step 1.2: Build a Huffman tree based on the character frequencies
 def build_huffman_tree(frequency_dict):
     priority_queue = []
     for char, frequency in frequency_dict.items():
@@ -36,7 +39,7 @@ def build_huffman_tree(frequency_dict):
         heapq.heappush(priority_queue, merged_node)
 
     return priority_queue[0]
-
+# Step 1.3: Traverse the Huffman tree to generate the Huffman codes for each character
 def generate_huffman_codes(root, current_code, huffman_codes):
     if root is None:
         return
@@ -51,7 +54,7 @@ def get_huffman_codes(root):
     huffman_codes = {}
     generate_huffman_codes(root, '', huffman_codes)
     return huffman_codes
-
+# Step 1.4: Write the encoded data to the output file
 def encode_data(input_file, output_file, huffman_codes):
     with open(input_file, 'r') as input_file:
         text = input_file.read()
