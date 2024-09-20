@@ -1,13 +1,13 @@
-
 #encoder/huffaman_encoder.py
 #Step 1.1: Read the input file and calculate the frequency of each character
 import collections 
-
 # Step 1.2: Build a Huffman tree based on the character frequencies
 import heapq
-
 #1.5
 import os
+#1.6
+import time
+
 
 class Node:
     def __init__(self, char, frequency):
@@ -82,10 +82,21 @@ def write_huffman_codes_to_file(huffman_codes):
 
 # Step 1.4: Write the encoded data to the output file
 def huffman_encode(input_file, output_file):
+    start_time = time.time()
     frequency_dict = calculate_frequencies(input_file)
     root = build_huffman_tree(frequency_dict)
     huffman_codes = get_huffman_codes(root)
     write_huffman_codes_to_file(huffman_codes)#Step 1.5: Write the huffman codes to file
     encode_data(input_file, output_file, huffman_codes)
+
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f'Execution time: {execution_time:.2f} seconds')
+
+    # Calculate compression ratio
+    input_size = os.path.getsize(input_file)
+    output_size = os.path.getsize(output_file)
+    compression_ratio = input_size / output_size
+    print(f'Compression ratio: {compression_ratio:.2f}')
     
 
