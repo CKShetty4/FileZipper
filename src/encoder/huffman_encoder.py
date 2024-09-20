@@ -22,10 +22,16 @@ class Node:
 def calculate_frequencies(input_file):
     with open(input_file, 'r') as file:
         text = file.read()
+
+    # Preprocess the text (replace newline with __NEWLINE__)
+    text = preprocess_input(text)
+
     frequency_dict = collections.defaultdict(int)
     for char in text:
         frequency_dict[char] += 1
+
     return frequency_dict
+
 # Step 1.2: Build a Huffman tree based on the character frequencies
 def build_huffman_tree(frequency_dict):
     priority_queue = []
@@ -61,9 +67,17 @@ def get_huffman_codes(root):
     return huffman_codes
 
 # Step 1.4: Write the encoded data to the output file
+# Step 1: Replace newlines with a unique placeholder before encoding
+def preprocess_input(text):
+    return text.replace('\n', '__NEWLINE__')
+
+# Modify your encode_data function to use preprocessing
 def encode_data(input_file, output_file, huffman_codes):
     with open(input_file, 'r') as input_file:
         text = input_file.read()
+
+    # Preprocess the text (replace newline with __NEWLINE__)
+    text = preprocess_input(text)
 
     encoded_data = ''
     for char in text:
@@ -71,6 +85,8 @@ def encode_data(input_file, output_file, huffman_codes):
 
     with open(output_file, 'w') as output_file:
         output_file.write(encoded_data)
+
+
 
 #Step 1.5: Write the huffman codes to file
 def write_huffman_codes_to_file(huffman_codes):

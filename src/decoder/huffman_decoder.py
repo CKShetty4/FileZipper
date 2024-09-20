@@ -20,22 +20,36 @@ def decode_data(encoded_data, huffman_codes):
                 break
     return decoded_data
 
+# Step 2: Replace the placeholder with newlines after decoding
+def postprocess_output(text):
+    return text.replace('__NEWLINE__', '\n')
+
+# Modify your decode_data function to use postprocessing
 def huffman_decode(input_file, output_file, huffman_codes):
     with open(input_file, 'r') as input_file:
         encoded_data = input_file.read()
 
     decoded_data = decode_data(encoded_data, huffman_codes)
 
+    # Postprocess the decoded data (replace __NEWLINE__ with newline)
+    decoded_data = postprocess_output(decoded_data)
+
     with open(output_file, 'w') as output_file:
         output_file.write(decoded_data)
 
-def get_huffman_codes_from_file(file_path):
-    with open(file_path, 'r') as file:
-        huffman_codes = {}
+
+def get_huffman_codes_from_file(huffman_codes_file):
+    huffman_codes = {}
+    with open(huffman_codes_file, 'r') as file:
         for line in file:
-            char, code = line.strip().split(':')
-            huffman_codes[char] = code
-        return huffman_codes
+            line = line.strip()
+            if line and ':' in line:
+                char, code = line.split(':', 1)  # Ensure splitting only at the first occurrence of ':'
+                if char == '':  # Special handling for space
+                    char = ' '
+                huffman_codes[char] = code
+    return huffman_codes
+
 
 def main():
     input_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'output_file.txt')
