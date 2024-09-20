@@ -26,8 +26,12 @@ def postprocess_output(text):
 
 # Modify your decode_data function to use postprocessing
 def huffman_decode(input_file, output_file, huffman_codes):
-    with open(input_file, 'r') as input_file:
-        encoded_data = input_file.read()
+    with open(input_file, 'rb') as input_file:  # 'rb' for binary read mode
+        encoded_bytes = input_file.read()
+
+    encoded_data = ''
+    for byte in encoded_bytes:
+        encoded_data += format(byte, '08b')  # Convert each byte back to its binary string form
 
     decoded_data = decode_data(encoded_data, huffman_codes)
 

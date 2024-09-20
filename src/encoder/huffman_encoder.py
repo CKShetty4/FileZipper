@@ -83,8 +83,14 @@ def encode_data(input_file, output_file, huffman_codes):
     for char in text:
         encoded_data += huffman_codes[char]
 
-    with open(output_file, 'w') as output_file:
-        output_file.write(encoded_data)
+    # Write as binary
+    with open(output_file, 'wb') as output_file:  # 'wb' for binary write mode
+        byte_array = bytearray()
+        for i in range(0, len(encoded_data), 8):
+            byte = encoded_data[i:i + 8]  # Take 8 bits at a time
+            byte_array.append(int(byte, 2))  # Convert string to binary and append
+        output_file.write(byte_array)
+
 
 
 
@@ -113,6 +119,6 @@ def huffman_encode(input_file, output_file):
     input_size = os.path.getsize(input_file)
     output_size = os.path.getsize(output_file)
     compression_ratio = input_size / output_size
-    print(f'Compression ratio: {compression_ratio:.2f}')
+    print(f'File is compressed {compression_ratio:.2f} times of it\'s orginal size')
     
 
