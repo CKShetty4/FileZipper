@@ -54,6 +54,7 @@ def get_huffman_codes(root):
     huffman_codes = {}
     generate_huffman_codes(root, '', huffman_codes)
     return huffman_codes
+
 # Step 1.4: Write the encoded data to the output file
 def encode_data(input_file, output_file, huffman_codes):
     with open(input_file, 'r') as input_file:
@@ -66,11 +67,19 @@ def encode_data(input_file, output_file, huffman_codes):
     with open(output_file, 'w') as output_file:
         output_file.write(encoded_data)
 
+#Step 1.5: Write the huffman codes to file
+def write_huffman_codes_to_file(huffman_codes, file_path):
+    with open(file_path, 'w') as file:
+        for char, code in huffman_codes.items():
+            file.write(f'{char}:{code}\n')
+            
+# Step 1.4: Write the encoded data to the output file
 def huffman_encode(input_file, output_file):
     frequency_dict = calculate_frequencies(input_file)
     root = build_huffman_tree(frequency_dict)
     huffman_codes = get_huffman_codes(root)
     encode_data(input_file, output_file, huffman_codes)
+    write_huffman_codes_to_file(huffman_codes, '../../Data/huffman_codes.txt')#Step 1.5: Write the huffman codes to file
 
 # Example usage:
 huffman_encode('../../Data/input_file.txt', '../../Data/output_file.txt')
