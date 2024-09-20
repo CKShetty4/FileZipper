@@ -1,3 +1,4 @@
+#decoder/huffaman_decoder.py
 import os
 
 class Node:
@@ -37,12 +38,9 @@ def get_huffman_codes_from_file(file_path):
         return huffman_codes
 
 def main():
-    input_file = '../../Data/output_file.txt'
-    output_file = '../../Data/decoded_file.txt'
-    huffman_codes_file = '../../Data/huffman_codes.txt'
+    input_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'output_file.txt')
+    output_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'decoded_file.txt')
+    huffman_codes_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'huffman_codes.txt')
 
     huffman_codes = get_huffman_codes_from_file(huffman_codes_file)
     huffman_decode(input_file, output_file, huffman_codes)
-
-if __name__ == '__main__':
-    main()

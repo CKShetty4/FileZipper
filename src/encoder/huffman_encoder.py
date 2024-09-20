@@ -1,8 +1,13 @@
+
+#encoder/huffaman_encoder.py
 #Step 1.1: Read the input file and calculate the frequency of each character
 import collections 
 
 # Step 1.2: Build a Huffman tree based on the character frequencies
 import heapq
+
+#1.5
+import os
 
 class Node:
     def __init__(self, char, frequency):
@@ -68,18 +73,19 @@ def encode_data(input_file, output_file, huffman_codes):
         output_file.write(encoded_data)
 
 #Step 1.5: Write the huffman codes to file
-def write_huffman_codes_to_file(huffman_codes, file_path):
+def write_huffman_codes_to_file(huffman_codes):
+    # Get the absolute path of the file
+    file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'huffman_codes.txt')
     with open(file_path, 'w') as file:
         for char, code in huffman_codes.items():
             file.write(f'{char}:{code}\n')
-            
+
 # Step 1.4: Write the encoded data to the output file
 def huffman_encode(input_file, output_file):
     frequency_dict = calculate_frequencies(input_file)
     root = build_huffman_tree(frequency_dict)
     huffman_codes = get_huffman_codes(root)
+    write_huffman_codes_to_file(huffman_codes)#Step 1.5: Write the huffman codes to file
     encode_data(input_file, output_file, huffman_codes)
-    write_huffman_codes_to_file(huffman_codes, '../../Data/huffman_codes.txt')#Step 1.5: Write the huffman codes to file
+    
 
-# Example usage:
-huffman_encode('../../Data/input_file.txt', '../../Data/output_file.txt')
