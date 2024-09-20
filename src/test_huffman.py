@@ -19,27 +19,27 @@ def setup_test_environment(test_case, test_num):
 
 def run_test(test_num, test_case):
     input_file, output_file, decoded_file, huffman_codes_file = setup_test_environment(test_case, test_num)
-    print(f"Input file: {input_file}")
-    print(f"Output file: {output_file}")
-    print(f"Decoded file: {decoded_file}")
-    print(f"Huffman codes file: {huffman_codes_file}")
+    # print(f"Input file: {input_file}")
+    # print(f"Output file: {output_file}")
+    # print(f"Decoded file: {decoded_file}")
+    # print(f"Huffman codes file: {huffman_codes_file}")
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             input_data = f.read()
-            print(f"Input data: {input_data}")
+            # print(f"Input data: {input_data}")
         execution_time, compression_ratio = huffman_encode(input_file, output_file, huffman_codes_file)
-        print(f"Execution time: {execution_time}")
-        print(f"Compression ratio: {compression_ratio}")
+        # print(f"Execution time: {execution_time}")
+        # print(f"Compression ratio: {compression_ratio}")
         huffman_codes = get_huffman_codes_from_file(huffman_codes_file)
-        print(f"Huffman codes: {huffman_codes}")
+        # print(f"Huffman codes: {huffman_codes}")
         start_time = time.time()
         huffman_decode_main(output_file, decoded_file, huffman_codes_file)
         decode_time = time.time() - start_time
         with open(decoded_file, 'r', encoding='utf-8') as f:
             decoded_data = f.read()
-            print(f"Decoded data: {decoded_data}")
+            # print(f"Decoded data: {decoded_data}")
         success = input_data == decoded_data
-        print(f"Success: {success}")
+        # print(f"Success: {success}")
         input_size = os.path.getsize(input_file)
         output_size = os.path.getsize(output_file)
         compression_percentage = ((input_size - output_size) / input_size) * 100 if input_size != 0 else 0

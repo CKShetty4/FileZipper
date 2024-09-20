@@ -63,7 +63,7 @@ def encode_data(input_file, output_file, huffman_codes):
             byte = encoded_data[i:i + 8]
             byte_array.append(int(byte, 2) if byte else 0)
         output_file.write(byte_array)
-    print(f"Encoded data: {encoded_data}")
+    # print(f"Encoded data: {encoded_data}")
 
 def write_huffman_codes_to_file(huffman_codes, file_path):
     with open(file_path, 'w') as file:
