@@ -95,20 +95,19 @@ def encode_data(input_file, output_file, huffman_codes):
 
 
 #Step 1.5: Write the huffman codes to file
-def write_huffman_codes_to_file(huffman_codes):
+def write_huffman_codes_to_file(huffman_codes,file_path):
     # Get the absolute path of the file
-    file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'huffman_codes.txt')
     with open(file_path, 'w') as file:
         for char, code in huffman_codes.items():
             file.write(f'{char}:{code}\n')
 
 # Step 1.4: Write the encoded data to the output file
-def huffman_encode(input_file, output_file):
+def huffman_encode(input_file, output_file,huffman_codes_file):
     start_time = time.time()
     frequency_dict = calculate_frequencies(input_file)
     root = build_huffman_tree(frequency_dict)
     huffman_codes = get_huffman_codes(root)
-    write_huffman_codes_to_file(huffman_codes)#Step 1.5: Write the huffman codes to file
+    write_huffman_codes_to_file(huffman_codes,huffman_codes_file)#Step 1.5: Write the huffman codes to file
     encode_data(input_file, output_file, huffman_codes)
 
     end_time = time.time()

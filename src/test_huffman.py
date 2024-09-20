@@ -25,7 +25,7 @@ def run_test(test_num, test_case):
 
     try:
         # Encode
-        execution_time, compression_ratio = huffman_encode(input_file, output_file)
+        execution_time, compression_ratio = huffman_encode(input_file, output_file,huffman_codes_file)
 
         # Load Huffman codes from the generated file
         huffman_codes = get_huffman_codes_from_file(huffman_codes_file)

@@ -10,7 +10,7 @@ def main():
     decoded_file = os.path.join(os.path.dirname(__file__), '..', 'Data', 'decoded_file.txt')
     huffman_codes_file = os.path.join(os.path.dirname(__file__), '..', 'Data', 'huffman_codes.txt')
     
-    huffman_encode(input_file, output_file)
+    huffman_encode(input_file, output_file,huffman_codes_file)
     huffman_decode_main(output_file, decoded_file, huffman_codes_file)
 
 if __name__ == '__main__':
