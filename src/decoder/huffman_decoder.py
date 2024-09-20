@@ -1,5 +1,6 @@
-#decoder/huffaman_decoder.py
+# decoder/huffman_decoder.py
 import os
+import time
 
 class Node:
     def __init__(self, char, frequency):
@@ -26,6 +27,7 @@ def postprocess_output(text):
 
 # Modify your decode_data function to use postprocessing
 def huffman_decode(input_file, output_file, huffman_codes):
+    start_time = time.time()
     with open(input_file, 'rb') as input_file:  # 'rb' for binary read mode
         encoded_bytes = input_file.read()
 
@@ -41,6 +43,10 @@ def huffman_decode(input_file, output_file, huffman_codes):
     with open(output_file, 'w') as output_file:
         output_file.write(decoded_data)
 
+    end_time = time.time()
+    execution_time = end_time - start_time
+    return decoded_data, execution_time
+
 
 def get_huffman_codes_from_file(huffman_codes_file):
     huffman_codes = {}
@@ -55,10 +61,6 @@ def get_huffman_codes_from_file(huffman_codes_file):
     return huffman_codes
 
 
-def main():
-    input_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'output_file.txt')
-    output_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'decoded_file.txt')
-    huffman_codes_file = os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'huffman_codes.txt')
-
+def main(input_file, output_file, huffman_codes_file):
     huffman_codes = get_huffman_codes_from_file(huffman_codes_file)
     huffman_decode(input_file, output_file, huffman_codes)

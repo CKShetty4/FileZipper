@@ -118,7 +118,7 @@ def huffman_encode(input_file, output_file):
     # Calculate compression ratio
     input_size = os.path.getsize(input_file)
     output_size = os.path.getsize(output_file)
-    compression_ratio = input_size / output_size
-    print(f'File is compressed {compression_ratio:.2f} times of it\'s orginal size')
+    compression_ratio = input_size / output_size if output_size != 0 else 0
+    # print(f'File is compressed {compression_ratio:.2f} times of it\'s orginal size')
+    return execution_time, compression_ratio
     
-
