@@ -26,7 +26,7 @@ def run_test(test_num, test_case):
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             input_data = f.read()
-            # print(f"Input data: {input_data}")
+            print(f"Input data: {input_data}")
         execution_time, compression_ratio = huffman_encode(input_file, output_file, huffman_codes_file)
         # print(f"Execution time: {execution_time}")
         # print(f"Compression ratio: {compression_ratio}")

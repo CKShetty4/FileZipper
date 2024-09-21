@@ -1,3 +1,4 @@
+#encoder/huffman_encoder.py
 import collections
 import heapq
 import os
@@ -47,6 +48,7 @@ def generate_huffman_codes(root, current_code, huffman_codes):
 def get_huffman_codes(root):
     huffman_codes = {}
     generate_huffman_codes(root, '', huffman_codes)
+    huffman_codes['__EOF__'] = '11111111'
     return huffman_codes
 
 def preprocess_input(text):
@@ -57,6 +59,10 @@ def encode_data(input_file, output_file, huffman_codes):
         text = input_file.read()
     text = preprocess_input(text)
     encoded_data = ''.join(huffman_codes[char] for char in text)
+    # encoded_data += huffman_codes['__EOF__']  # Add the EOF marker
+    # Pad the encoded data with zeros to make it a multiple of 8 bits
+    padding = 8 - (len(encoded_data) % 8)
+    encoded_data += '0' * padding
     with open(output_file, 'wb') as output_file:
         byte_array = bytearray()
         for i in range(0, len(encoded_data), 8):
@@ -69,6 +75,7 @@ def write_huffman_codes_to_file(huffman_codes, file_path):
     with open(file_path, 'w') as file:
         for char, code in huffman_codes.items():
             file.write(f'{char}:{code}\n')
+        file.write(f'__EOF__:{huffman_codes["__EOF__"]}')
 
 def huffman_encode(input_file, output_file, huffman_codes_file):
     start_time = time.time()
