@@ -48,8 +48,16 @@ def generate_huffman_codes(root, current_code, huffman_codes):
 def get_huffman_codes(root):
     huffman_codes = {}
     generate_huffman_codes(root, '', huffman_codes)
+    
+    # Special case: If there is only one character, assign it a non-empty code.
+    if len(huffman_codes) == 1:
+        single_char = list(huffman_codes.keys())[0]
+        huffman_codes[single_char] = '0'  # Assign '0' as the code for the single character
+
     huffman_codes['__EOF__'] = '11111111'
     return huffman_codes
+
+
 
 def preprocess_input(text):
     return text.replace('\n', '__NEWLINE__')

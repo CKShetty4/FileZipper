@@ -12,21 +12,19 @@ class Node:
 def decode_data(encoded_data, huffman_codes):
     decoded_data = ''
     temp = ''
-    for i in range(0, len(encoded_data), 8):
-        byte = encoded_data[i:i+8]
-        temp += byte
-        while True:
-            for char, code in huffman_codes.items():
-                if temp.startswith(code):
-                    if char == '__EOF__':
-                        temp = temp[len(code):]  # Remove the EOF code
-                        return decoded_data  # Stop decoding when EOF is reached
-                    decoded_data += char
-                    temp = temp[len(code):]
-                    break
-            else:
+    
+    for bit in encoded_data:
+        temp += bit
+        # Check if temp matches any Huffman code
+        for char, code in huffman_codes.items():
+            if temp == code:
+                if char == '__EOF__':
+                    return decoded_data  # Stop when EOF is reached
+                decoded_data += char
+                temp = ''  # Reset temp after a successful match
                 break
     return decoded_data
+
 
 def postprocess_output(text):
     return text.replace('__NEWLINE__', '\n')
