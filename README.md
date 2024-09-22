@@ -32,13 +32,14 @@ Huffman encoding is a **lossless compression** technique that uses a frequency-b
 1. Clone the repository:
    ```bash
    git clone https://github.com/CKShetty4/FileZipper.git
-```
-2. Navigate to the project directory:
-```bash
-cd FileZipper
-```
+   ```
 
-###Running the Program (Still need be implemented though)
+2. Navigate to the project directory:
+   ```bash
+   cd FileZipper
+   ```
+
+### Running the Program (Still need be implemented though)
 To compress a file:
 ```bash
 python huffman_encoder.py compress <input_file> <output_file>
