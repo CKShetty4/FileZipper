@@ -58,17 +58,30 @@ def encode_data(input_file, output_file, huffman_codes):
     with open(input_file, 'r') as input_file:
         text = input_file.read()
     text = preprocess_input(text)
+    
+    # Encoding the text using the Huffman codes
     encoded_data = ''.join(huffman_codes[char] for char in text)
-    # encoded_data += huffman_codes['__EOF__']  # Add the EOF marker
-    # Pad the encoded data with zeros to make it a multiple of 8 bits
+    
+    # Padding to ensure the encoded_data length is a multiple of 8
     padding = 8 - (len(encoded_data) % 8)
-    encoded_data += '0' * padding
+    padding_info = "{0:08b}".format(padding)  # Store padding info as 8-bit binary
+    encoded_data += '0' * padding  # Add padding to the end of the encoded data
+
+    # Convert encoded data to bytes
     with open(output_file, 'wb') as output_file:
         byte_array = bytearray()
+        
+        # First, write the padding info at the start of the file
+        byte_array.append(int(padding_info, 2))
+        
+        # Then write the encoded data as bytes
         for i in range(0, len(encoded_data), 8):
             byte = encoded_data[i:i + 8]
-            byte_array.append(int(byte, 2) if byte else 0)
+            byte_array.append(int(byte, 2))
+        
         output_file.write(byte_array)
+
+    # Print the encoded data for debugging if necessary
     # print(f"Encoded data: {encoded_data}")
 
 def write_huffman_codes_to_file(huffman_codes, file_path):
