@@ -1,7 +1,7 @@
 # main.py
 import os
 from encoder.huffman_encoder import huffman_encode
-from decoder.huffman_decoder import main as huffman_decode_main
+from decoder.huffman_decoder import huffman_decode_main
 
 
 def main():

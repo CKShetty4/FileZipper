@@ -2,7 +2,7 @@ import os
 import shutil
 import time
 from encoder.huffman_encoder import huffman_encode
-from decoder.huffman_decoder import main as huffman_decode_main, get_huffman_codes_from_file
+from decoder.huffman_decoder import huffman_decode_main, get_huffman_codes_from_file
 
 # Set up the test environment by creating the necessary files and directories
 def setup_test_environment(test_case, test_num):

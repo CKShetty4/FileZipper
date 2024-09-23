@@ -1,6 +1,5 @@
-import os
+import argparse
 import time
-import re
 
 #Defines a Node class for a Huffman tree, with attributes for character, frequency, and left and right child nodes.
 class Node:
@@ -82,6 +81,26 @@ def huffman_decode(input_file, output_file, huffman_codes):
     execution_time = end_time - start_time
     return decoded_data, execution_time
 
-def main(input_file, output_file, huffman_codes_file):
+def huffman_decode_main(input_file, output_file, huffman_codes_file):
     huffman_codes = get_huffman_codes_from_file(huffman_codes_file)
     huffman_decode(input_file, output_file, huffman_codes)
+
+def main():
+    parser = argparse.ArgumentParser(description='Huffman Decoder')
+    parser.add_argument('command', choices=['decompress'], help='Command to execute')
+    parser.add_argument('input_file', help='Input file to read compressed data')
+    parser.add_argument('codes_file', help='Output file to write decompressed data')
+    args = parser.parse_args()
+
+    if args.command == 'decompress':
+        input_file = args.input_file
+        huffman_codes_file = args.codes_file
+        output_file = 'Decompressed_file.txt'  
+        start_time = time.time()
+        huffman_decode_main(input_file, output_file, huffman_codes_file)
+        decode_time = time.time() - start_time
+        print(f"Decompression time: {decode_time:.4f} seconds")
+
+if __name__ == '__main__':
+    main()
+    

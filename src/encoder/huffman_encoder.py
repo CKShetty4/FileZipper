@@ -2,7 +2,7 @@ import collections
 import heapq
 import os
 import time
-import re
+import argparse
 
 class Node:
     def __init__(self, char, frequency):
@@ -104,7 +104,7 @@ def write_huffman_codes_to_file(huffman_codes, file_path):
     with open(file_path, 'w') as file:
         for char, code in huffman_codes.items():
             file.write(f'{char}:{code}\n')
-        file.write(f'__EOF__:{huffman_codes["__EOF__"]}')
+        # file.write(f'__EOF__:{huffman_codes["__EOF__"]}')
 
 # Perform Huffman encoding on the input file
 def huffman_encode(input_file, output_file, huffman_codes_file):
@@ -120,3 +120,20 @@ def huffman_encode(input_file, output_file, huffman_codes_file):
     output_size = os.path.getsize(output_file)
     compression_ratio = input_size / output_size if output_size != 0 else 0
     return execution_time, compression_ratio
+
+def main():
+    parser = argparse.ArgumentParser(description='Huffman Encoder')
+    parser.add_argument('command', choices=['compress'], help='Command to execute')
+    parser.add_argument('input_file', help='Input file to compress')
+    args = parser.parse_args()
+
+    if args.command == 'compress':
+        input_file = args.input_file
+        output_file = 'Compressed_file.txt'
+        huffman_codes_file = 'huffman_codes.txt'
+        execution_time, compression_ratio = huffman_encode(input_file, output_file, huffman_codes_file)
+        print(f"Compression ratio: {compression_ratio:.2f}")
+        print(f"Execution time: {execution_time:.4f} seconds")
+
+if __name__ == '__main__':
+    main()
