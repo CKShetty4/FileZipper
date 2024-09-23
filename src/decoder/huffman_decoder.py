@@ -1,6 +1,8 @@
 import os
 import time
+import re
 
+#Defines a Node class for a Huffman tree, with attributes for character, frequency, and left and right child nodes.
 class Node:
     def __init__(self, char, frequency):
         self.char = char
@@ -8,31 +10,37 @@ class Node:
         self.left = None
         self.right = None
 
+
+#Reads a file and returns a dictionary of Huffman codes, where each key is a character and each value is its corresponding Huffman code.
+def get_huffman_codes_from_file(huffman_codes_file):
+    huffman_codes = {}
+    with open(huffman_codes_file, 'r') as file:
+        for line in file:
+            line = line.strip()
+            if line and ':' in line:
+                char, code = line.split(':', 1)
+                if char == '':
+                    char = ' '
+                huffman_codes[char] = code
+    huffman_codes['__EOF__'] = '11111111'
+    return huffman_codes
+
+#Decodes encoded data using Huffman codes, replacing each code with its corresponding character.
 def decode_data(encoded_data, huffman_codes):
     decoded_data = ''
     temp = ''
-    
-    # Create a reverse lookup for huffman codes (bit sequences as keys)
     reverse_huffman_codes = {code: char for char, code in huffman_codes.items()}
-    
     for bit in encoded_data:
         temp += bit
-        
-        # Check if temp matches any Huffman code
         if temp in reverse_huffman_codes:
             char = reverse_huffman_codes[temp]
-            
             if char == '__EOF__':
-                break  # Stop decoding when EOF is reached
-            
+                break
             decoded_data += char
-            temp = ''  # Reset temp after a successful match
-    
+            temp = ''
     return decoded_data
 
-
-import re
-
+#Replaces special character placeholders with their original characters in the decoded data.
 def postprocess_output(text):
     special_chars = [
         ('@', '__SPECIAL_AT'),
@@ -57,57 +65,22 @@ def postprocess_output(text):
         text = text.replace(special_char, char)
     return text.replace('__NEWLINE__', '\n')
 
+#Decodes an encoded file using Huffman codes, removing padding, decoding the data, and writing the decoded data to an output file.
 def huffman_decode(input_file, output_file, huffman_codes):
     start_time = time.time()
-    
-    # Read the encoded file as bytes
     with open(input_file, 'rb') as input_file:
         encoded_bytes = input_file.read()
-
-    # The first byte tells us how much padding was added during encoding
     padding = encoded_bytes[0]
-    print(f"Padding in the file: {padding}")
-
-    # Convert the remaining bytes into a bitstring
     encoded_data = ''.join(format(byte, '08b') for byte in encoded_bytes[1:])
-    
-    print(f"Encoded data before removing padding: {encoded_data}")
-    
-    # Remove the padding bits from the end
     if padding > 0:
         encoded_data = encoded_data[:-padding]
-
-    print(f"Encoded data after removing padding: {encoded_data}")
-
-    # Decode the data using the Huffman codes
     decoded_data = decode_data(encoded_data, huffman_codes)
-    
-    # Post-process the decoded data to handle newlines, etc.
     decoded_data = postprocess_output(decoded_data)
-    
-    # Write the decoded data to the output file
     with open(output_file, 'w') as output_file:
         output_file.write(decoded_data)
-    
     end_time = time.time()
     execution_time = end_time - start_time
     return decoded_data, execution_time
-
-
-
-def get_huffman_codes_from_file(huffman_codes_file):
-    huffman_codes = {}
-    with open(huffman_codes_file, 'r') as file:
-        for line in file:
-            line = line.strip()
-            if line and ':' in line:
-                char, code = line.split(':', 1)
-                if char == '':
-                    char = ' '
-                huffman_codes[char] = code
-    huffman_codes['__EOF__'] = '11111111'
-    # print("Huffman codes:", huffman_codes)  # Add this line to verify the dictionary
-    return huffman_codes
 
 def main(input_file, output_file, huffman_codes_file):
     huffman_codes = get_huffman_codes_from_file(huffman_codes_file)
