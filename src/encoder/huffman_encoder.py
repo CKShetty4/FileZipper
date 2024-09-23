@@ -1,4 +1,3 @@
-#encoder/huffman_encoder.py
 import collections
 import heapq
 import os
@@ -59,8 +58,31 @@ def get_huffman_codes(root):
 
 
 
+import re
+
 def preprocess_input(text):
+    special_chars = str.maketrans({
+        '@': '__SPECIAL_AT',
+        '#': '__SPECIAL_HASH',
+        '$': '__SPECIAL_DOLLAR',
+        '%': '__SPECIAL_PERCENT',
+        '^': '__SPECIAL_CARET',
+        '&': '__SPECIAL_AND',
+        '*': '__SPECIAL_STAR',
+        '(': '__SPECIAL_LEFT_PAREN',
+        ')': '__SPECIAL_RIGHT_PAREN',
+        '_': '__SPECIAL_UNDERSCORE',
+        '+': '__SPECIAL_PLUS',
+        '{': '__SPECIAL_LEFT_BRACE',
+        '}': '__SPECIAL_RIGHT_BRACE',
+        '|': '__SPECIAL_VERTICAL_BAR',
+        ':': '__SPECIAL_COLON',
+        '<': '__SPECIAL_LEFT_ANGLE_BRACKET',
+        '>': '__SPECIAL_RIGHT_ANGLE_BRACKET',
+    })
+    text = text.translate(special_chars)
     return text.replace('\n', '__NEWLINE__')
+
 
 def encode_data(input_file, output_file, huffman_codes):
     with open(input_file, 'r') as input_file:
